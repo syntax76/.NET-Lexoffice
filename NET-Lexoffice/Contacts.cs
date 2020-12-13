@@ -1,6 +1,7 @@
 ﻿// MIT License
 // 
 // Copyright (c) 2020 Nils Kleinert
+// Forked by Heinrich Alexandra Hermann
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -20,29 +21,41 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#region Usings
-
+using System;
 using System.Threading.Tasks;
+using ahbsd.lib;
 using RestSharp;
 
-#endregion
-
-namespace NET_Lexoffice
+namespace ahbsd.Lexoffice.Rest
 {
-    public class Contacts
+    /// <summary>
+    /// Class for reading Contacts.
+    /// </summary>
+    public class Contacts : HTTPClient, IHTTPClient
     {
-        private readonly string _apiKey;
-        private readonly HTTPClient _httpClient;
+        /// <summary>
+        /// Constructor with API-Key.
+        /// </summary>
+        /// <param name="apiKey">The API-Key.</param>
+        public Contacts(string apiKey)
+            : base(apiKey)
+        { }
 
-        internal Contacts(string apiKey)
-        {
-            _apiKey = apiKey;
-            _httpClient = new HTTPClient(apiKey);
-        }
+        /// <summary>
+        /// Constructor without parameters.
+        /// </summary>
+        public Contacts()
+            : base()
+        { }
 
+        /// <summary>
+        /// Gets all Contacts.
+        /// </summary>
+        /// <param name="page">The Page to begin with.</param>
+        /// <returns>All Contacts.</returns>
         public async Task<string> GetAllContacts(int page = 0)
         {
-            return await _httpClient.Send(Method.GET, $"contacts/?page={page}", null);
+            return await Send(Method.GET, $"contacts/?page={page}");
         }
     }
 }

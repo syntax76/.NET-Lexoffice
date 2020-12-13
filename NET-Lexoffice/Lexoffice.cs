@@ -1,6 +1,7 @@
 ﻿// MIT License
 // 
 // Copyright (c) 2020 Nils Kleinert
+// Forked by Heinrich Alexandra Hermann 
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -20,17 +21,26 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-namespace NET_Lexoffice
+namespace ahbsd.Lexoffice.Rest
 {
-    public class Lexoffice
+    /// <summary>
+    /// A Class, that only offers Contacts.
+    /// </summary>
+    public class Lexoffice : HTTPClient
     {
-        private readonly string _apiKey;
+        /// <summary>
+        /// All Contacts.
+        /// </summary>
         public readonly Contacts Contacts;
 
+        /// <summary>
+        /// Constructor with an API-Key.
+        /// </summary>
+        /// <param name="apiKey">The API-Key.</param>
         public Lexoffice(string apiKey)
+            : base(apiKey)
         {
-            _apiKey = apiKey;
-            Contacts = new Contacts(apiKey);
+            Contacts = new Contacts();
         }
     }
 }
