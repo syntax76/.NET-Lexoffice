@@ -159,6 +159,7 @@ namespace ahbsd.Lexoffice.Rest
         /// <param name="method">HTTP-Method to use.</param>
         /// <param name="path">The specific path to use.</param>
         /// <returns>The response content</returns>
+        /// <exception cref="AuthenticationException">If the API-Key is invalid.</exception>
         public async Task<string> Send(Method method, string path)
         {
             string result, tmp;
@@ -184,11 +185,12 @@ namespace ahbsd.Lexoffice.Rest
             {
                 if (!string.IsNullOrEmpty(ApiKey) && !ApiKey.Trim().Equals(string.Empty))
                 {
-                    tmp = "Invalid API-Key";
+                    tmp = string.Format("Invalid API-Key: \nContent: {0}\nErrormessage: {1}", response.Content, response.ErrorMessage);
+                    SetResponse(response.Content);
                 }
                 else
                 {
-                    tmp = "No API-Key set";
+                    tmp = string.Format("No API-Key set \nContent: {0}\nErrormessage: {1}", response.Content, response.ErrorMessage);
                 }
                 ae = new AuthenticationException(tmp);
 
