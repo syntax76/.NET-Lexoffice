@@ -27,6 +27,9 @@ using RestSharp;
 
 namespace ahbsd.Lexoffice.Rest
 {
+    /// <summary>
+    /// Interface for HTTP-Client.
+    /// </summary>
     public interface IHTTPClient
     {
         /// <summary>

@@ -162,7 +162,7 @@ namespace ahbsd.Lexoffice.Rest
 
             RestRequest request = new RestRequest(method);
 
-            request.AddHeader("Authorization", $"Bearer {_apiKey}");
+            request.AddHeader("Authorization", $"Bearer {ApiKey}");
             request.AddHeader("Accept", "application/json");
 
             IRestResponse response = await client.ExecuteAsync(request);
