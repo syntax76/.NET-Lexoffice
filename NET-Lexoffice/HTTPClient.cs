@@ -24,6 +24,7 @@ using System;
 using System.Security.Authentication;
 using System.Threading.Tasks;
 using ahbsd.lib;
+using Newtonsoft.Json;
 using RestSharp;
 
 namespace ahbsd.Lexoffice.Rest
@@ -37,6 +38,11 @@ namespace ahbsd.Lexoffice.Rest
         /// The basic URI for LexOffice REST-API
         /// </summary>
         public const string BasicUriLexoffice = "https://api.lexoffice.io/";
+
+        /// <summary>
+        /// The last response.
+        /// </summary>
+        private object _response;
 
         /// <summary>
         /// The current REST-Version.
@@ -93,6 +99,8 @@ namespace ahbsd.Lexoffice.Rest
 
         }
 
+        #region implementation of IHTTPClient
+
         /// <summary>
         /// Returns the response content.
         /// </summary>
@@ -125,6 +133,7 @@ namespace ahbsd.Lexoffice.Rest
             if (response.IsSuccessful)
             {
                 result = response.Content;
+                SetResponse(result);
             }
             else
             {
@@ -169,6 +178,7 @@ namespace ahbsd.Lexoffice.Rest
             if (response.IsSuccessful)
             {
                 result = response.Content;
+                SetResponse(result);
             }
             else
             {
@@ -185,6 +195,23 @@ namespace ahbsd.Lexoffice.Rest
                 throw ae;
             }
             return result;
+        }
+
+
+        /// <summary>
+        /// Returns the last response of a <see cref="Send(Method, string)"/>.
+        /// </summary>
+        /// <value>The last response.</value>
+        public object Response => _response;
+        #endregion
+
+        /// <summary>
+        /// Sets the <see cref="Response"/> from a string from the last Send.
+        /// </summary>
+        /// <param name="response">The string from the last Send.</param>
+        private void SetResponse(string response)
+        {
+            _response = JsonConvert.DeserializeObject(response);
         }
     }
 }

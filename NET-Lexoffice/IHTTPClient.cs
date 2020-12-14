@@ -48,5 +48,10 @@ namespace ahbsd.Lexoffice.Rest
         /// <param name="path">The specific path to use.</param>
         /// <returns>The response content</returns>
         Task<string> Send(Method method, string path);
+        /// <summary>
+        /// Returns the last response of a <see cref="Send(Method, string)"/>.
+        /// </summary>
+        /// <value>The last response.</value>
+        object Response { get; }
     }
 }
