@@ -24,6 +24,7 @@ using System;
 using System.Security.Authentication;
 using System.Threading.Tasks;
 using ahbsd.lib;
+using ahbsd.lib.lexoffice;
 using Newtonsoft.Json;
 using RestSharp;
 
@@ -32,7 +33,7 @@ namespace ahbsd.Lexoffice.Rest
     /// <summary>
     /// HTTP-Client for Lexoffice REST-Api
     /// </summary>
-    public class HTTPClient : ApiKeyHolder<string>, IHTTPClient
+    public class HTTPClient : LexofficeApiKey, IHTTPClient
     {
         /// <summary>
         /// The basic URI for LexOffice REST-API
@@ -107,11 +108,12 @@ namespace ahbsd.Lexoffice.Rest
         /// <param name="method">HTTP-Method to use.</param>
         /// <param name="path">The specific path to use.</param>
         /// <param name="parameters">Parameters.</param>
-        /// <returns>The response content</returns>
+        /// <returns>The response</returns>
         [Obsolete]
         public async Task<string> Send(Method method, string path, params Parameter[] parameters)
         {
-            string result, tmp;
+            string result;
+            string tmp;
 
             AuthenticationException ae;
 
@@ -133,7 +135,7 @@ namespace ahbsd.Lexoffice.Rest
             if (response.IsSuccessful)
             {
                 result = response.Content;
-                SetResponse(result);
+                SetResponse(response.Content);
             }
             else
             {

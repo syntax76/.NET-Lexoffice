@@ -24,13 +24,14 @@
 using System;
 using System.Threading.Tasks;
 using RestSharp;
+using ahbsd.lib.lexoffice;
 
 namespace ahbsd.Lexoffice.Rest
 {
     /// <summary>
     /// Interface for HTTP-Client.
     /// </summary>
-    public interface IHTTPClient
+    public interface IHTTPClient 
     {
         /// <summary>
         /// Returns the response content.
