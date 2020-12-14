@@ -39,11 +39,26 @@ namespace ahbsd.Lexoffice.Rest
         public const string BasicUriLexoffice = "https://api.lexoffice.io/";
 
         /// <summary>
+        /// The current REST-Version.
+        /// </summary>
+        private static string _restVersion;
+        /// <summary>
         /// Gets or sets the current LexOffice REST-API version.
         /// </summary>
         /// <value>The current LexOffice REST-API version.</value>
-        /// <remarks>Usually <c>v</c>X where X is the current number.</remarks>
-        public static string LexofficeRestVersion { get; set; }
+        /// <remarks>Usually <c>v</c>X where X is the current number. The set also updates the current <see cref="BasicUri"/>.</remarks>
+        public static string LexofficeRestVersion
+        {
+            get => _restVersion;
+            set
+            {
+                if (!string.IsNullOrEmpty(value) && !value.Trim().Equals(string.Empty))
+                {
+                    _restVersion = value;
+                    BasicUri = new Uri(BasicUriLexoffice + LexofficeRestVersion);
+                }
+            }
+        }
 
         /// <summary>
         /// Gets the current basic URI. 
@@ -57,7 +72,6 @@ namespace ahbsd.Lexoffice.Rest
         static HTTPClient()
         {
             LexofficeRestVersion = "v1/";
-            BasicUri = new Uri(BasicUriLexoffice + LexofficeRestVersion);
         }
 
         /// <summary>
