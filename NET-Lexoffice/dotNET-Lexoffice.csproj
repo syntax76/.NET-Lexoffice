@@ -22,4 +22,8 @@
     <PackageReference Include="RestSharp" Version="106.11.7" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\ahbsd.lib.lexoffice\ahbsd.lib.lexoffice.csproj" />
+    <ProjectReference Include="..\ahbsd.lib\ahbsd.lib.csproj" />
+  </ItemGroup>
 </Project>
