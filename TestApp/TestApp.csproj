@@ -3,10 +3,22 @@
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>netcoreapp3.1</TargetFramework>
+    <ReleaseVersion>1.0</ReleaseVersion>
   </PropertyGroup>
 
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugType>full</DebugType>
+    <DocumentationFile>bin\Debug\netcoreapp3.1\TestApp.xml</DocumentationFile>
+    <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>pdbonly</DebugType>
+    <DocumentationFile>bin\Release\netcoreapp3.1\TestApp.xml</DocumentationFile>
+    <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
+  </PropertyGroup>
   <ItemGroup>
-    <ProjectReference Include="..\NET-Lexoffice\NET-Lexoffice.csproj" />
+    <ProjectReference Include="..\NET-Lexoffice\dotNET-Lexoffice.csproj" />
   </ItemGroup>
 
 </Project>

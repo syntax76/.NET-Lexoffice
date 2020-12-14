@@ -1,6 +1,7 @@
 ﻿// MIT License
 // 
 // Copyright (c) 2020 Nils Kleinert
+// Forked by Heinrich Alexandra Hermann
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -20,21 +21,60 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#region Usings
-
 using System;
-using NET_Lexoffice;
-
-#endregion
+using ahbsd.Lexoffice.Rest;
 
 namespace TestApp
 {
+    /// <summary>
+    /// A test class.
+    /// </summary>
     internal class Test
     {
+        /// <summary>
+        /// Main function to run.
+        /// </summary>
+        /// <param name="args">Optional parameters.</param>
         private static void Main(string[] args)
         {
-            Lexoffice lo = new Lexoffice("abcd");
-            Console.WriteLine(lo.Contacts.GetAllContacts().Result);
+            Lexoffice lo = null;
+            string apiKey, result;
+            object response = null;
+
+            result = string.Empty;
+
+            if (args.Length > 0)
+            {
+                try
+                {
+                    apiKey = args[0].Trim();
+                    lo = new Lexoffice(apiKey);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(string.Format("A {0} happened.\nMessage: {1}\n\nStackTrace:\n{2}\n----------------------------", ex.GetType(), ex.Message, ex.StackTrace));
+                }
+            }
+            else
+            {
+                lo = new Lexoffice("abcd");
+            }
+
+            if (lo != null)
+            {
+                try
+                {
+                    result = lo.Contacts.GetAllContacts().Result;
+                    response = lo.Contacts.Response;
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(string.Format("A {0} happened.\nMessage: {1}\n\nStackTrace:\n{2}\n----------------------------", ex.GetType(), ex.Message, ex.StackTrace));
+                    result = ex.Message;
+                }
+            }
+            
+            Console.WriteLine(result);
         }
     }
 }
