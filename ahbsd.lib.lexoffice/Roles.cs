@@ -11,18 +11,100 @@ namespace ahbsd.lib.lexoffice
     /// </summary>
     public interface IRoles
     {
+        /// <summary>
+        /// Gibt den Verkäufer zurück oder setzt ihn.
+        /// </summary>
+        /// <value>Der Verkäufer.</value>
         Vendor Vendor { get; set; }
+        /// <summary>
+        /// Gibt den Kunden zurück oder setzt ihn.
+        /// </summary>
+        /// <value>Der Kunde</value>
         Customer Customer { get; set; }
     }
 
+    /// <summary>
+    /// Interface für eine Rolle.
+    /// </summary>
     public interface IRole
     {
+        /// <summary>
+        /// Gibt die Nummer zurück oder setzt sie.
+        /// </summary>
+        /// <value>Die Nummer.</value>
         int Number { get; set; }
+        /// <summary>
+        /// Gibt einen String zurück, der das Objekt darstellt.
+        /// </summary>
+        /// <returns>Ein String, der das Objekt darstellt.</returns>
         string ToString();
     }
 
     /// <summary>
-    /// Struktur mehrerer Rollen.
+    /// Abstrakte Klasse für eine Rolle.
+    /// </summary>
+    public abstract class Role : IRole, IEquatable<IRole>
+    {
+        #region implementation of IRole
+        /// <summary>
+        /// Gibt die Nummer zurück oder setzt sie.
+        /// </summary>
+        /// <value>Die Nummer.</value>
+        public int Number { get; set; }
+        #endregion
+
+        /// <summary>
+        /// Konstruktor ohne Parameter.
+        /// </summary>
+        /// <remarks>Number wird auf -1 gesetzt.</remarks>
+        protected Role()
+        {
+            Number = -1;
+        }
+
+        /// <summary>
+        /// Konstruktor mit Angabe einer Nummer.
+        /// </summary>
+        /// <param name="nr">Die Nummer</param>
+        protected Role(int nr)
+        {
+            Number = nr;
+        }
+
+        public override bool Equals(object obj)
+        {
+            return Equals(obj as IRole);
+        }
+
+        public bool Equals(IRole other)
+        {
+            return other != null &&
+                   Number == other.Number;
+        }
+
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(Number);
+        }
+
+        public static bool operator ==(Role left, Role right)
+        {
+            return EqualityComparer<IRole>.Default.Equals(left, right);
+        }
+
+        public static bool operator !=(Role left, Role right)
+        {
+            return !(left == right);
+        }
+
+        protected string ToStringBase(string classname)
+        {
+            return string.Format("{1} #{0}", Number, classname.Trim());
+        }
+    }
+
+    /// <summary>
+    /// Klasse mehrerer Rollen.
     /// </summary>
     public class Roles : IRoles, IEquatable<Roles>
     {
@@ -35,6 +117,11 @@ namespace ahbsd.lib.lexoffice
             roleS[1] = null;
         }
 
+        #region Implementierung von IRoles
+        /// <summary>
+        /// Gibt den Verkäufer zurück oder setzt ihn.
+        /// </summary>
+        /// <value>Der Verkäufer.</value>
         public Vendor Vendor
         {
             get => (Vendor)roleS[0];
@@ -44,6 +131,10 @@ namespace ahbsd.lib.lexoffice
             }
         }
 
+        /// <summary>
+        /// Gibt den Kunden zurück oder setzt ihn.
+        /// </summary>
+        /// <value>Der Kunde</value>
         public Customer Customer
         {
             get => (Customer)roleS[1];
@@ -52,6 +143,7 @@ namespace ahbsd.lib.lexoffice
                 roleS[1] = value;
             }
         }
+        #endregion
 
         public override bool Equals(object obj)
         {
@@ -61,14 +153,12 @@ namespace ahbsd.lib.lexoffice
         public bool Equals(Roles other)
         {
             return other != null &&
-                   EqualityComparer<IRole[]>.Default.Equals(roleS, other.roleS) &&
-                   EqualityComparer<Vendor>.Default.Equals(Vendor, other.Vendor) &&
-                   EqualityComparer<Customer>.Default.Equals(Customer, other.Customer);
+                   EqualityComparer<IRole[]>.Default.Equals(roleS, other.roleS);
         }
 
         public override int GetHashCode()
         {
-            return HashCode.Combine(roleS, Vendor, Customer);
+            return HashCode.Combine(roleS);
         }
 
         public override string ToString()
@@ -98,85 +188,43 @@ namespace ahbsd.lib.lexoffice
         }
     }
 
-    public class Customer : IRole, IEquatable<Customer>
+    /// <summary>
+    /// Kunden-Klasse.
+    /// </summary>
+    /// <remarks>Wird so benötigt, damit die JSON-Umsetzung funktioniert.</remarks>
+    public class Customer : Role, IRole
     {
-        public int Number { get; set; }
-
+        /// <summary>
+        /// Konstruktor ohne Parameter
+        /// </summary>
         public Customer()
-        {
-            Number = -1;
-        }
-
-        public override bool Equals(object obj)
-        {
-            return Equals(obj as Customer);
-        }
-
-        public bool Equals(Customer other)
-        {
-            return other != null &&
-                   Number == other.Number;
-        }
-
-        public override int GetHashCode()
-        {
-            return HashCode.Combine(Number);
-        }
+            : base()
+        { }
 
         public override string ToString()
         {
-            return string.Format("Customer #{0}", Number);
+            return ToStringBase("Customer");
         }
 
-        public static bool operator ==(Customer left, Customer right)
-        {
-            return EqualityComparer<Customer>.Default.Equals(left, right);
-        }
-
-        public static bool operator !=(Customer left, Customer right)
-        {
-            return !(left == right);
-        }
+        
     }
 
-    public class Vendor : IRole, IEquatable<Vendor>
+    /// <summary>
+    /// Verkäufer-Klasse.
+    /// </summary>
+    /// <remarks>Wird so benötigt, damit die JSON-Umsetzung funktioniert.</remarks>
+    public class Vendor : Role, IRole
     {
-        public int Number { get; set; }
-
+        /// <summary>
+        /// Konstruktor ohne Parameter
+        /// </summary>
         public Vendor()
-        {
-            Number = -1;
-        }
-
-        public override bool Equals(object obj)
-        {
-            return Equals(obj as Vendor);
-        }
-
-        public bool Equals(Vendor other)
-        {
-            return other != null &&
-                   Number == other.Number;
-        }
-
-        public override int GetHashCode()
-        {
-            return HashCode.Combine(Number);
-        }
+            : base()
+        { }
 
         public override string ToString()
         {
-            return string.Format("Vendor #{0}", Number);
-        }
-
-        public static bool operator ==(Vendor left, Vendor right)
-        {
-            return EqualityComparer<Vendor>.Default.Equals(left, right);
-        }
-
-        public static bool operator !=(Vendor left, Vendor right)
-        {
-            return !(left == right);
+            return ToStringBase("Vendor");
         }
     }
 }

@@ -10,26 +10,26 @@ namespace ahbsd.lib.lexoffice
     /// Please note that it's only possible to create and change contacts with a maximum of one billing and/or one shipping address.
     /// It's possible to retrieve contacts with more than one billing and shipping address, but it's not possible to update such a contact via the REST API.
     /// </remarks>
-    public interface IAdresses
+    public interface IAddresses
     {
         /// <summary>
         /// Gibt die Liste der Rechnungsadressen zurück.
         /// </summary>
         /// <value>Die Liste der Rechnungsadressen.</value>
-        /// <remarks>A list of billing addresses. Each entry is an object of <see cref="IAdress"/>.</remarks>
-        List<Adress> Billing { get; }
+        /// <remarks>A list of billing addresses. Each entry is an object of <see cref="IAddress"/>.</remarks>
+        List<Address> Billing { get; }
         /// <summary>
         /// Gibt die Liste der Versandadressen zurück.
         /// </summary>
         /// <value>Die Liste der Versandadressen.</value>
-        /// <remarks>A list of shipping addresses. Each entry is an object of <see cref="IAdress"/>.</remarks>
-        List<Adress> Shipping { get; }
+        /// <remarks>A list of shipping addresses. Each entry is an object of <see cref="IAddress"/>.</remarks>
+        List<Address> Shipping { get; }
     }
 
     /// <summary>
     /// Interface für eine Adresse.
     /// </summary>
-    public interface IAdress
+    public interface IAddress
     {
         /// <summary>
         /// Gibt zusätzliche Adress-Informationen zurück oder setzt sie.

@@ -7,7 +7,7 @@ namespace ahbsd.lib.lexoffice
     /// <summary>
     /// Klasse für eine Adresse
     /// </summary>
-    public class Adress : IAdress, IEquatable<Adress>
+    public class Address : IAddress, IEquatable<Address>
     {
         #region IMplementierung vom IAdress
         /// <summary>
@@ -45,16 +45,16 @@ namespace ahbsd.lib.lexoffice
         /// <summary>
         /// Konstruktor ohne Parameter.
         /// </summary>
-        public Adress()
+        public Address()
         {
         }
 
         public override bool Equals(object obj)
         {
-            return Equals(obj as Adress);
+            return Equals(obj as Address);
         }
 
-        public bool Equals(Adress other)
+        public bool Equals(Address other)
         {
             return other != null &&
                    Supplement == other.Supplement &&
@@ -97,12 +97,12 @@ namespace ahbsd.lib.lexoffice
             return result.ToString();
         }
 
-        public static bool operator ==(Adress left, Adress right)
+        public static bool operator ==(Address left, Address right)
         {
-            return EqualityComparer<Adress>.Default.Equals(left, right);
+            return EqualityComparer<Address>.Default.Equals(left, right);
         }
 
-        public static bool operator !=(Adress left, Adress right)
+        public static bool operator !=(Address left, Address right)
         {
             return !(left == right);
         }

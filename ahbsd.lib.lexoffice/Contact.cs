@@ -68,9 +68,9 @@ namespace ahbsd.lib.lexoffice
         /// <remarks>
         /// Addresses (e.g. billing and shipping address(es)) for the contact.
         /// Contains a list for each address type.
-        /// For details see <see cref="IAdresses"/>.
+        /// For details see <see cref="IAddresses"/>.
         /// </remarks>
-        public Adresses Adresses { get; private set; }
+        public Addresses Addresses { get; private set; }
         /// <summary>
         /// Gibt eine <see cref="IXRechnung"/> zurück.
         /// </summary>
@@ -122,7 +122,7 @@ namespace ahbsd.lib.lexoffice
             Roles = new Roles();
             Archived = false;
             Version = 1;
-            Adresses = new Adresses();
+            Addresses = new Addresses();
             XRechnung = null;
             EmailAddresses = new EmailAdresses();
             PhoneNumbers = new PhoneNumbers();
