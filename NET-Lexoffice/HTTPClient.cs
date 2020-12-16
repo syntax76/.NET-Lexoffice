@@ -23,7 +23,6 @@
 using System;
 using System.Security.Authentication;
 using System.Threading.Tasks;
-using ahbsd.lib;
 using ahbsd.lib.lexoffice;
 using Newtonsoft.Json;
 using RestSharp;

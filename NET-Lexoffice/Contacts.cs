@@ -25,9 +25,8 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using ahbsd.lib.lexoffice;
-using RestSharp;
 using Newtonsoft.Json;
-using System.Text.Json.Serialization;
+using RestSharp;
 
 namespace ahbsd.Lexoffice.Rest
 {

@@ -24,6 +24,5 @@
 
   <ItemGroup>
     <ProjectReference Include="..\ahbsd.lib.lexoffice\ahbsd.lib.lexoffice.csproj" />
-    <ProjectReference Include="..\ahbsd.lib\ahbsd.lib.csproj" />
   </ItemGroup>
 </Project>
