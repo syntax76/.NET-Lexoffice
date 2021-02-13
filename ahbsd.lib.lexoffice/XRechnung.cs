@@ -21,6 +21,14 @@ namespace ahbsd.lib.lexoffice
 
         #region Implementierung von IXRechnung
         /// <summary>
+        /// Happenes, if <see cref="BuyerReference"/> changed.
+        /// </summary>
+        public event ChangeEventHandler<string> OnBuyerReferenceChanged;
+        /// <summary>
+        /// Happenes if <see cref="VendorNumberAtCustomer"/> changed.
+        /// </summary>
+        public event ChangeEventHandler<string> OnVendorNumberAtCustomerChanged;
+        /// <summary>
         /// Gibt die Käufer Leitweg-ID zurück oder setzt sie.
         /// </summary>
         /// <value>Die Käufer Leitweg-ID.</value>
@@ -30,14 +38,23 @@ namespace ahbsd.lib.lexoffice
             get => _buyerReference;
             set
             {
+                ChangeEventArgs<string> ceaB, ceaV;
+
                 if (!string.IsNullOrEmpty(value) && !value.Trim().Equals(_buyerReference))
                 {
+                    ceaB = new ChangeEventArgs<string>(_buyerReference, value.Trim());
                     _buyerReference = value.Trim();
+                    OnBuyerReferenceChanged?.Invoke(this, ceaB);
                 }
                 else if (string.IsNullOrEmpty(value))
                 {
+                    ceaB = new ChangeEventArgs<string>(_buyerReference, null);
+                    ceaV = new ChangeEventArgs<string>(_vendorNumberAtCustomer, null);
                     _buyerReference = null;
                     _vendorNumberAtCustomer = null;
+
+                    OnBuyerReferenceChanged?.Invoke(this, ceaB);
+                    OnVendorNumberAtCustomerChanged?.Invoke(this, ceaV);
                 }
             }
         }
@@ -52,13 +69,19 @@ namespace ahbsd.lib.lexoffice
             get => _vendorNumberAtCustomer;
             set
             {
+                ChangeEventArgs<string> cea;
+
                 if (!string.IsNullOrEmpty(value) && !value.Trim().Equals(_vendorNumberAtCustomer))
                 {
+                    cea = new ChangeEventArgs<string>(_vendorNumberAtCustomer, value.Trim());
                     _vendorNumberAtCustomer = value.Trim();
+                    OnVendorNumberAtCustomerChanged?.Invoke(this, cea);
                 }
                 else if (string.IsNullOrEmpty(value) && string.IsNullOrEmpty(_buyerReference))
                 {
+                    cea = new ChangeEventArgs<string>(_vendorNumberAtCustomer, null);
                     _vendorNumberAtCustomer = null;
+                    OnVendorNumberAtCustomerChanged?.Invoke(this, cea);
                 }
                 else
                 {
@@ -102,10 +125,10 @@ namespace ahbsd.lib.lexoffice
             if (string.IsNullOrEmpty(vnac.Trim()) && !string.IsNullOrEmpty(bnr.Trim()))
             {
 #if DEBUG
-                Exception e = new Exception(string.Format("Da die Käufer Leitweg-ID '{0}' ist, kann die Verkäufernummer NICHT NULL sein!", vnac));
+                Exception e = new Exception($"Da die Käufer Leitweg-ID '{vnac}' ist, kann die Verkäufernummer NICHT NULL sein!");
                 throw e;
 #else
-                throw new Exception(string.Format("Da die Käufer Leitweg-ID '{0}' ist, kann die Verkäufernummer NICHT NULL sein!", vnac));
+                throw new Exception($"Da die Käufer Leitweg-ID '{vnac}' ist, kann die Verkäufernummer NICHT NULL sein!");
 #endif
             }
         }

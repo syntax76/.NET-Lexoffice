@@ -1,4 +1,6 @@
-﻿namespace ahbsd.lib.lexoffice
+﻿using ahbsd.lib;
+
+namespace ahbsd.lib.lexoffice
 {
     /// <summary>
     /// Contacts for German public authorities should be created with both of the following attributes set.
@@ -9,6 +11,14 @@
     /// </remarks>
     public interface IXRechnung
     {
+        /// <summary>
+        /// Happenes, if <see cref="BuyerReference"/> changed.
+        /// </summary>
+        event ChangeEventHandler<string> OnBuyerReferenceChanged;
+        /// <summary>
+        /// Happenes if <see cref="VendorNumberAtCustomer"/> changed.
+        /// </summary>
+        event ChangeEventHandler<string> OnVendorNumberAtCustomerChanged;
         /// <summary>
         /// Gibt die Käufer Leitweg-ID zurück oder setzt sie.
         /// </summary>
